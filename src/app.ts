@@ -4,6 +4,7 @@ import { PORT } from "./config/env";
 import { SampleRouter } from "./modules/sample/sample.router";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { AuthRouter } from "./modules/auth/auth.router";
+import { BlogRouter } from "./modules/blog/blog.router";
 
 export class App {
   app: Express;
@@ -22,9 +23,11 @@ export class App {
   private routes() {
     const sampleRouter = new SampleRouter();
     const authRouter = new AuthRouter();
+    const blogRouter = new BlogRouter();
 
     this.app.use("/samples", sampleRouter.getRouter());
     this.app.use("/auth", authRouter.getRouter());
+    this.app.use("/blogs", blogRouter.getRouter());
   }
 
   private handleError() {
