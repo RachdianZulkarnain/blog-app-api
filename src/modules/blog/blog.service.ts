@@ -1,4 +1,5 @@
 import { Prisma } from "../../generated/prisma";
+import { ApiError } from "../../utils/api-error";
 import { PaginationQueryParams } from "../pagination/dto/pagination.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { GetBlogsDTO } from "./dto/get-blogs.dto";
@@ -32,5 +33,16 @@ export class BlogService {
       data: blogs,
       meta: { page, take, total },
     };
+  };
+
+  getBlogBySlug = async (slug: string) => {
+    const blog = await this.prisma.blog.findFirst({
+      where: { slug },
+    });
+
+    if (!blog) {
+      throw new ApiError("blog not found", 404);
+    }
+    return blog;
   };
 }
